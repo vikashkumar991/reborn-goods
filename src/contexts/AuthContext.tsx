@@ -15,6 +15,7 @@ interface AuthContextType {
   signup: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
+  isAdmin: () => boolean;
   loading: boolean;
 }
 
@@ -57,12 +58,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return unsubscribe;
   }, []);
 
+  const isAdmin = () => {
+    return currentUser?.email?.includes('admin') || false;
+  };
+
   const value = {
     currentUser,
     login,
     signup,
     logout,
     resetPassword,
+    isAdmin,
     loading
   };
 
